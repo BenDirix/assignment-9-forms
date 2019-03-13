@@ -1,28 +1,101 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <form>
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+          <!-- Exercise 1 -->
+          <!-- Create a Signup Form where you retrieve the following Information -->
+          <!-- Full Name (First Name + Last Name) -->
+          <div class="form-group">
+            <label for="First name">First name:</label>
+            <input type="text" id="firstName" class="form-control" v-model="userData.firstName">
+          </div>
+          <div class="form-group">
+            <label for="First name">Last name:</label>
+            <input type="text" id="lastName" class="form-control" v-model="userData.lastName">
+          </div>
+          <!-- Mail -->
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" v-model="userData.email">
+          </div>
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" class="form-control" v-model="userData.password">
+          </div>
+          <!-- Store Data? Yes/No -->
+          <label for>Store in database?</label>
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 form-group">
+              <label for="Yes">
+                <input type="radio" id="Yes" value="Yes" v-model="userData.StoredInDatabase"> Yes
+              </label>
+              <label for="no">
+                <input type="radio" id="no" value="No" v-model="userData.StoredInDatabase"> No
+              </label>
+            </div>
+          </div>
+          <!-- Exercise 2 -->
+          <!-- Only display the Form if it has NOT been submitted -->
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+              <button class="btn btn-primary" @click.prevent="submitted()">Submit!</button>
+            </div>
+          </div>
+          <!-- Display the Data Summary ONCE the Form HAS been submitted -->
+          <!-- Exercise 3 -->
+          <appFullName v-model="fullName"></appFullName>
+          <!-- Edit the Example from above and create a custom "Full Name" Control -->
+          <!-- which still holds the First Name and Last Name Input Field -->
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div class="row" v-if="isSubmitted">
+      <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Your Data</h4>
+          </div>
+          <div class="panel-body">
+            <p>Full Name: {{ fullName }}</p>
+            <p>Mail: {{userData.email}}</p>
+            <p>Password: {{userData.password}}</p>
+            <p>Store in Database?: {{userData.StoredInDatabase}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import FullName from './components/FullName.vue';
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      userData: {
+        firstName: "",
+        lastName: "",        
+        email: "",
+        password: "",
+        StoredInDatabase: ""
+      },
+      isSubmitted: false,
+      fullName: "",
+    };
+  },
+  methods:{
+    submitted(){
+      this.isSubmitted = true;
+    }
+  },
+  components:{
+    appFullName: FullName,
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
